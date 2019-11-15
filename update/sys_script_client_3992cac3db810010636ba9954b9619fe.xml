@@ -10,9 +10,8 @@
         <messages>This is a test file</messages>
         <name>testFile</name>
         <order/>
-        <script><![CDATA[function testFunc() {
-	alert('woot woot woot');
-	console.log('woot woot');
+        <script><![CDATA[function onLoad() {
+	console.log('whoa3');
 }]]></script>
         <sys_class_name>sys_script_client</sys_class_name>
         <sys_created_by>admin</sys_created_by>
@@ -20,7 +19,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>3992cac3db810010636ba9954b9619fe</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>testFile</sys_name>
         <sys_overrides/>
         <sys_package display_value="voice" source="x_425089_voice">dacd5dc7db010010636ba9954b961956</sys_package>
@@ -28,9 +27,9 @@
         <sys_scope display_value="voice">dacd5dc7db010010636ba9954b961956</sys_scope>
         <sys_update_name>sys_script_client_3992cac3db810010636ba9954b9619fe</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-15 21:14:46</sys_updated_on>
+        <sys_updated_on>2019-11-15 21:48:31</sys_updated_on>
         <table/>
-        <type/>
+        <type>onLoad</type>
         <ui_type>0</ui_type>
         <view/>
     </sys_script_client>
