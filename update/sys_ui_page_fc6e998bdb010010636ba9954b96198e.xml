@@ -2,10 +2,13 @@
     <sys_ui_page action="INSERT_OR_UPDATE">
         <category>general</category>
         <client_script><![CDATA[// Handles outbound-call click
-function handleCallButtonClick() {
+function handleOutboundCallButtonClick() {
+	console.log('HERE!!!');
 	var outboundPhoneNumber = document.getElementById('outboundPhoneNumber').value;
-	console.log('state:');
-	console.log(state);
+	console.log('outbound: ' + outboundPhoneNumber);
+	commandToWebPhone(OUTBOUND_CALL, outboundPhoneNumber);
+// 	console.log('state:');
+// 	console.log(state);
 }
 
 // Handles agent-status change
@@ -19,6 +22,8 @@ function handleAgentStatusChange() {
 		commandToWebPhone('initialize', {username: username, password: password, url: url})
 		.then(function() {
 			console.log('initialized!');
+			console.log('state.agentId: ' + state.agentId);
+			setAgentIdValue();
 			commandToWebPhone('changeStateToReady')
             .then(function() {
                 console.log('agent is ready');
@@ -27,9 +32,37 @@ function handleAgentStatusChange() {
 	}
 }
 
+// Handles end call
+function handleEndCall() {
+	commandToWebPhone(END_CALL);
+}
+
+// Sets agent ID
+function setAgentIdValue() {
+	document.getElementById('agentIdValue').innerHTML = state.agentId;
+}
+
+// Sets caller ID
+function setCallerIdValue() {
+	document.getElementById('callerIdValue').innerHTML = state.callDetails.callerId;
+}
+
+// Sets call duration
+function setCallDurationValue() {
+	document.getElementById('callDuration').innerHTML = state.callDetails.duration.seconds;
+}
+
+// Refreshes controls
 function refreshControls() {
-	
-}]]></client_script>
+	setCallerIdValue();
+	setCallDurationValue();
+}
+
+// Refreshes call duration
+function refreshCallDuration() {
+	setCallDurationValue();
+}
+]]></client_script>
         <description>Main page</description>
         <direct>false</direct>
         <endpoint>x_425089_voice_index.do</endpoint>
@@ -48,28 +81,60 @@ function refreshControls() {
 	<script src="https://mars-omni.bpo.avaya.com/ccphone1/services/http/agent-service.js"></script>
 	<script src="https://mars-omni.bpo.avaya.com/ccphone1/services/ses/Serializer.js"></script>
 	<script src="https://mars-omni.bpo.avaya.com/ccphone1/services/ses/SesClient.js"></script>
-<!-- 	<script src="https://mars-omni.bpo.avaya.com/ccphone1/webphone.js"></script> -->
 	
 	<h2>Voice App</h2>
-	<!-- Agent status -->
-	<div>
-		<label for="agentStatus">Select:</label>
-		<select id="agentStatus" name="voiceStatus" onchange="handleAgentStatusChange()">
-			<option value="">Select...</option>
-			<option value="offline">Offline</option>
-			<option value="notReady">Not Ready</option>
-			<option value="afterCallWork">After Call Work</option>
-			<option value="ready">Ready</option>
-		</select>
-	</div>
-	<!-- Outbound phone -->
-	<div>
-		<label for="outboundPhoneNumber">Phone:</label>
-		<input type="text" name="outboundPhoneNumber" id="outboundPhoneNumber" />
-		<button type="button" name="callButton" value="Call" onclick="handleCallButtonClick()">
-			Call
-		</button> 
-	</div>
+	
+	<table>
+		<!-- Agent status -->
+		<tr>
+			<td>Status:</td>
+			<td>
+				<select id="agentStatus" name="voiceStatus" onchange="handleAgentStatusChange()">
+					<option value="">Select...</option>
+					<option value="offline">Offline</option>
+					<option value="notReady">Not Ready</option>
+					<option value="afterCallWork">After Call Work</option>
+					<option value="ready">Ready</option>
+				</select>
+			</td>
+		</tr>
+	
+		<!-- Agent ID -->
+		<tr>
+			<td>Agent ID:</td>
+			<td><span id="agentIdValue"></span></td>
+		</tr>
+		
+		<!-- Caller ID -->
+		<tr>
+			<td>Caller ID:</td>
+			<td><span id="callerIdValue"></span></td>
+		</tr>
+		
+		<!-- Call duration -->
+		<tr>
+			<td>Call duration:</td>
+			<td><span id="callDuration"></span></td>
+		</tr>
+		
+		<!-- Outbound number -->
+		<tr>
+			<td>Outbound number:</td>
+			<td>
+				<input type="text" name="outboundPhoneNumber" id="outboundPhoneNumber" />
+				<button name="outboundCallButton" onclick="handleOutboundCallButtonClick()">
+					Call
+				</button>
+			</td>
+		</tr>
+		
+		<!-- Call controls -->
+		<tr>
+			<td colspan="2">
+				<button name="endCall" id="endCall" onclick="handleEndCall()">End call</button>
+			</td>
+		</tr>
+	</table>
 </j:jelly>]]></html>
         <name>index</name>
         <processing_script/>
@@ -77,13 +142,13 @@ function refreshControls() {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-15 18:40:07</sys_created_on>
         <sys_id>fc6e998bdb010010636ba9954b96198e</sys_id>
-        <sys_mod_count>33</sys_mod_count>
+        <sys_mod_count>57</sys_mod_count>
         <sys_name>index</sys_name>
         <sys_package display_value="voice" source="x_425089_voice">dacd5dc7db010010636ba9954b961956</sys_package>
         <sys_policy/>
         <sys_scope display_value="voice">dacd5dc7db010010636ba9954b961956</sys_scope>
         <sys_update_name>sys_ui_page_fc6e998bdb010010636ba9954b96198e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-15 23:25:27</sys_updated_on>
+        <sys_updated_on>2019-11-18 19:29:18</sys_updated_on>
     </sys_ui_page>
 </record_update>
